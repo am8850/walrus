@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35431.28
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPSIW.Common", "DPSIW.Common\DPSIW.Common.csproj", "{0DBE0870-7E28-4092-A4C5-33D8C9CA7F7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPSIW.CLI", "DPSIW.CLI\DPSIW.CLI.csproj", "{5CF28D7E-5100-4502-B504-D3BEAA495130}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2918CF3C-FCAF-47F1-BA14-404DE2AD37CA}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0DBE0870-7E28-4092-A4C5-33D8C9CA7F7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DBE0870-7E28-4092-A4C5-33D8C9CA7F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DBE0870-7E28-4092-A4C5-33D8C9CA7F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DBE0870-7E28-4092-A4C5-33D8C9CA7F7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CF28D7E-5100-4502-B504-D3BEAA495130}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CF28D7E-5100-4502-B504-D3BEAA495130}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CF28D7E-5100-4502-B504-D3BEAA495130}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CF28D7E-5100-4502-B504-D3BEAA495130}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {196C7BF9-97A4-4B0C-AE74-ECEC3FEBA94F}
+	EndGlobalSection
+EndGlobal
