@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DPSIW.Common.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,21 @@ namespace DPSIW.Common.Services
 {
     public class MockProducer
     {
-        public MockProducer()
+        private readonly SBService sbservice;
+
+        public MockProducer(SBService sbService)
         {
-            
+            sbservice = sbService;
         }
 
-        public async Task Produce()
+        public async Task ProduceAsync(int number)
         {
-            await Task.CompletedTask;
+            for(var i = 0; i < number; i++)
+            {
+                var metadata = new MedicalNotesMetadata("url", "", "", "", "https://storage/notes/jmdoe-123.wav", "notes/jmdoe-123.wav");
+                var note = new MedicalNotes(Guid.NewGuid().ToString(),"jmdoe",Guid.NewGuid().ToString(),"medicalnotes",metadata,DateTime.UtcNow);
+                await sbservice.SendMessage(note);
+            }
         }
     }
 }

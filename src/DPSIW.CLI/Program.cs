@@ -1,6 +1,4 @@
 ﻿using DPSIW.Common.Services;
-using DPSIW.Common.Workers;
-
 
 namespace DPSIW.CLI
 {
@@ -31,8 +29,11 @@ namespace DPSIW.CLI
                 numberOption
             };
 
-            produceCommand.SetHandler((number) =>
+            produceCommand.SetHandler(async (number) =>
             {
+                var sbservice = services.GetRequiredService<SBService>();
+                var producer = new MockProducer(sbservice);
+                await producer.ProduceAsync(number);
                 Console.WriteLine($"Producing messages: {number}");
 
             },numberOption);
@@ -80,6 +81,7 @@ namespace DPSIW.CLI
             // Execute the CLI Command
             return await rootCommand.InvokeAsync(args);
             //return await consumeCommand.InvokeAsync(args);
+            //return await produceCommand.InvokeAsync(args);
         }
 
         private static ServiceProvider CreateServices()
@@ -88,6 +90,7 @@ namespace DPSIW.CLI
             var serviceProvider = new ServiceCollection()
             .AddSingleton<IProcessor>(new SBWorker(settings.ServiceBusConnectionString,settings.ServiceBusQueueName))
             .AddSingleton<Settings>(settings)
+            .AddSingleton<SBService>(new SBService(settings.ServiceBusConnectionString, settings.ServiceBusQueueName))
             .BuildServiceProvider();
 
             return serviceProvider;
