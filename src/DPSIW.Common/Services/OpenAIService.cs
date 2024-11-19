@@ -27,8 +27,7 @@ namespace DPSIW.Common.Services
         {
             try
             {
-
-
+                Console.WriteLine("Processing LLM completion");
                 if (string.IsNullOrEmpty(model))
                 {
                     model = chatModel;

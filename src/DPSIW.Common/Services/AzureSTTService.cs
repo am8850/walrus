@@ -16,11 +16,13 @@ namespace DPSIW.Common.Services
             speechConfig.SetProperty(PropertyId.SpeechServiceResponse_DiarizeIntermediateResults, "true");
         }
 
-        public async Task<string> TranscribeAsync(string filepath, string? targetPath = null)
+        public async Task<string> TranscribeAsync(string filepath, string? targetpath = null)
         {
-            if (string.IsNullOrEmpty(targetPath))
+            Console.WriteLine($"Converting speech to text from {filepath} to {targetpath}");
+
+            if (string.IsNullOrEmpty(targetpath))
             {
-                targetPath = Utilities.Utilities.FileGenerator();
+                targetpath = Utilities.Utilities.FileGenerator();
             }
 
             var stopRecognition = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -84,12 +86,12 @@ namespace DPSIW.Common.Services
                         Console.WriteLine("Transcript:\n" + sb.ToString());
                         try
                         {
-                            await File.WriteAllTextAsync(targetPath, sb.ToString());
-                            Console.WriteLine($"Transcription written to file {targetPath}");
+                            await File.WriteAllTextAsync(targetpath, sb.ToString());
+                            Console.WriteLine($"Transcription written to file {targetpath}");
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"Unable to write transcription to file {targetPath} with error: {ex.Message}");
+                            Console.WriteLine($"Unable to write transcription to file {targetpath} with error: {ex.Message}");
                             
                             // Indicate that there was an error
                             success = false;
@@ -106,7 +108,7 @@ namespace DPSIW.Common.Services
                 }
             }
 
-            return success ? targetPath : "";
+            return success ? targetpath : "";
         }
     }
 }

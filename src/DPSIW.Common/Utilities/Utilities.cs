@@ -32,4 +32,17 @@ public static class Utilities
     {
         return new Tuple<string, string>(Path.GetFileNameWithoutExtension(fileName), Path.GetExtension(fileName));
     }
+
+    public static void DeleteFile(string filepath)
+    {
+        try
+        {
+            Console.WriteLine($"Deleting file: {filepath}");
+            File.Delete(filepath);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to delete file: {ex.Message}");
+        }
+    }
 }
