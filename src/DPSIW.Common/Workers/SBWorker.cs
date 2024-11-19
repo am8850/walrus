@@ -6,7 +6,6 @@ using System.Text.Json;
 
 namespace DPSIW.Common.Workers
 {
-
     public class SBWorker(string connStr, string queueName) : IWorker
     {
         public async Task ProcessAsync(CancellationToken token, int instances)
@@ -16,11 +15,6 @@ namespace DPSIW.Common.Workers
 
             // the processor that reads and processes messages from the queue
             ServiceBusProcessor processor;
-            //while (true)
-            //{
-            //    Console.WriteLine($"Consuming messages: {instances}");
-            //    await Task.Delay(10);
-            //}
 
             var clientOptions = new ServiceBusClientOptions()
             {
@@ -50,6 +44,7 @@ namespace DPSIW.Common.Workers
                     await processor.StartProcessingAsync();
                 }
 
+                // Wait indefinetely
                 while (!token.IsCancellationRequested)
                 {
                     await Task.Delay(500);
@@ -78,9 +73,6 @@ namespace DPSIW.Common.Workers
             }
 
         }
-
-
-
 
         // handle received messages
         async Task MessageHandler(ProcessMessageEventArgs args)
