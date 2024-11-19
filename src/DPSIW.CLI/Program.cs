@@ -99,9 +99,9 @@ namespace DPSIW.CLI
             rootCommand.AddCommand(transcribeCommand);
 
             // Execute the CLI Command
-            return await rootCommand.InvokeAsync(args);
             //return await consumeCommand.InvokeAsync(args);
             //return await produceCommand.InvokeAsync(args);
+            return await rootCommand.InvokeAsync(args);
         }
 
         private static ServiceProvider CreateServices()
