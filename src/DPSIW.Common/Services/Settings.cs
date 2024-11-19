@@ -14,6 +14,8 @@ namespace DPSIW.Common.Services
         public string OpenAIEndpoint { get; private set; } = "";
         public string OpenAIKey { get; private set; } = "";
         public string OpenAIChatModel { get; private set; } = "gpt-4o";
+        public string speechKey { get; private set; } = "";
+        public string speechRegion { get; private set; } = "";
 
         public Settings()
         {
@@ -23,6 +25,8 @@ namespace DPSIW.Common.Services
             this.OpenAIEndpoint = Environment.GetEnvironmentVariable("OpenAIEndpoint") ?? "";
             this.OpenAIKey = Environment.GetEnvironmentVariable("OpenAIKey") ?? "";
             this.OpenAIChatModel = Environment.GetEnvironmentVariable("OpenAIChatModel") ?? "gpt-4o";
+            this.speechKey = Environment.GetEnvironmentVariable("SpeechKey") ?? "";
+            this.speechRegion = Environment.GetEnvironmentVariable("SpeechRegion") ?? "";
         }
     }
 }

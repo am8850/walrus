@@ -72,11 +72,32 @@ namespace DPSIW.CLI
                 Console.WriteLine("Counting the messages in the queue");
             });
 
+            // Transcribe file
+            var fileOption = new Option<string>(
+                name: "--file",
+                description: "Mono wav file to transcribe",
+                getDefaultValue: () => "");
+            var transcribeCommand = new Command("transcribe", "Transcribe a file")
+            {
+                fileOption
+            };
+            transcribeCommand.SetHandler(async (file) => {
+                if (string.IsNullOrEmpty(file))
+                {
+                    Console.WriteLine("Please provide a file to transcribe with the option --file");
+                    return;
+                }
+                var sbservice = services.GetRequiredService<AzureSTTService>();
+                await sbservice.TranscribeAsync(file);
+            },fileOption);
+
+
             // Add commands to the root command
             rootCommand.AddCommand(produceCommand);
             rootCommand.AddCommand(consumeCommand);
             rootCommand.AddCommand(qclearCommand);
             rootCommand.AddCommand(qcountCommand);
+            rootCommand.AddCommand(transcribeCommand);
 
             // Execute the CLI Command
             return await rootCommand.InvokeAsync(args);
@@ -92,6 +113,7 @@ namespace DPSIW.CLI
             .AddSingleton<Settings>(settings)
             .AddSingleton<SBService>(new SBService(settings.ServiceBusConnectionString, settings.ServiceBusQueueName))
             .AddSingleton<OpenAIService>(new OpenAIService(settings))
+            .AddSingleton<AzureSTTService>(new AzureSTTService(settings.speechKey,settings.speechRegion))
             .BuildServiceProvider();
 
             return serviceProvider;

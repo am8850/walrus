@@ -16,16 +16,17 @@ namespace DPSIW.Common.Services
             speechConfig.SetProperty(PropertyId.SpeechServiceResponse_DiarizeIntermediateResults, "true");
         }
 
-        public async Task TranscribeAsync(string filepath, string? targetPath)
+        public async Task<string> TranscribeAsync(string filepath, string? targetPath = null)
         {
-            if (targetPath is null)
+            if (string.IsNullOrEmpty(targetPath))
             {
-                targetPath = Guid.NewGuid().ToString().Replace("-", "")[..6].ToUpper() + ".txt";
+                targetPath = Utilities.Utilities.FileGenerator();
             }
 
             var stopRecognition = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
             StringBuilder sb = new();
 
+            var success = true;
             // Create an audio stream from a wav file or from the default microphone
             using (var audioConfig = AudioConfig.FromWavFileInput(filepath))
             {
@@ -34,17 +35,17 @@ namespace DPSIW.Common.Services
                 {
                     conversationTranscriber.Transcribing += (s, e) =>
                     {
-                        Console.WriteLine($"TRANSCRIBING: Text={e.Result.Text} Speaker ID={e.Result.SpeakerId}");
+                        //Console.WriteLine($"TRANSCRIBING: Text={e.Result.Text} Speaker ID={e.Result.SpeakerId}");
                     };
 
                     conversationTranscriber.Transcribed += (s, e) =>
                     {
                         if (e.Result.Reason == ResultReason.RecognizedSpeech)
                         {
-                            Console.WriteLine();
-                            Console.WriteLine($"TRANSCRIBED: Text={e.Result.Text} Speaker ID={e.Result.SpeakerId}");
-                            sb.AppendLine($"Speaker: {e.Result.SpeakerId}\n{e.Result.Text}");
-                            Console.WriteLine();
+                            //Console.WriteLine();
+                            Console.WriteLine($"Speaker: {e.Result.SpeakerId}\n{e.Result.Text}\n");
+                            sb.AppendLine($"Speaker: {e.Result.SpeakerId}\n{e.Result.Text}\n");
+                            //Console.WriteLine();
                         }
                         else if (e.Result.Reason == ResultReason.NoMatch)
                         {
@@ -76,16 +77,36 @@ namespace DPSIW.Common.Services
                     await conversationTranscriber.StartTranscribingAsync();
 
                     // Waits for completion. Use Task.WaitAny to keep the task rooted.
-                    Task.WaitAny(new[] { stopRecognition.Task });
+                    Task.WaitAny([stopRecognition.Task]);
 
                     if (sb.Length > 0)
-                        await File.WriteAllTextAsync(targetPath, sb.ToString());
+                    {
+                        Console.WriteLine("Transcript:\n" + sb.ToString());
+                        try
+                        {
+                            await File.WriteAllTextAsync(targetPath, sb.ToString());
+                            Console.WriteLine($"Transcription written to file {targetPath}");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Unable to write transcription to file {targetPath} with error: {ex.Message}");
+                            
+                            // Indicate that there was an error
+                            success = false;
+                        }
+                    }
                     else
+                    {                        
                         Console.WriteLine("Error: No transcriptions was generated.");
+                        // Indicate that there was an error
+                        success = false;
+                    }
 
                     await conversationTranscriber.StopTranscribingAsync();
                 }
             }
+
+            return success ? targetPath : "";
         }
     }
 }
