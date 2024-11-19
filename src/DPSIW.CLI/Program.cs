@@ -8,7 +8,6 @@ namespace DPSIW.CLI
         {
             // DI
             var services = CreateServices();
-            
 
             // Create the root command
             var rootCommand = new RootCommand("DPSiw for .NET");
@@ -114,6 +113,7 @@ namespace DPSIW.CLI
             .AddSingleton<SBService>(new SBService(settings.ServiceBusConnectionString, settings.ServiceBusQueueName))
             .AddSingleton<OpenAIService>(new OpenAIService(settings))
             .AddSingleton<AzureSTTService>(new AzureSTTService(settings.speechKey,settings.speechRegion))
+            .AddSingleton<AzureBlobStorageService>(new AzureBlobStorageService(settings.storageConnectionString))
             .BuildServiceProvider();
 
             return serviceProvider;

@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace DPSIW.Common.Services
 {
-    internal class AzureStorageService
+    public class AzureBlobStorageService
     {
 
         private readonly BlobServiceClient blobServiceClient;
 
         //public readonly BlobContainerClient containerClient;
 
-        public AzureStorageService(string connecionStr)
+        public AzureBlobStorageService(string connecionStr)
         {
             //blobServiceClient = new BlobServiceClient(
             //    new Uri("https://<storage-account-name>.blob.core.windows.net"),
@@ -35,11 +35,25 @@ namespace DPSIW.Common.Services
             blobClient.Upload("path to file", true);
         }
 
-        public async Task DownloadBlob(string containerName, string blobName, string targetFilepath)
+        public async Task DownloadBlob(string blobUri, string localFilePath)
         {
-            BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName);
-            BlobClient blobClient = containerClient.GetBlobClient(blobName);
-            await blobClient.DownloadToAsync(targetFilepath);
+            // Convert blobUri to container name and blob name
+            try
+            {
+                var uri = new Uri(blobUri);
+                var (containerName, blobName) = Utilities.Utilities.GetContainerAndName(blobUri);
+
+                BlobClient blobClient = blobServiceClient
+                    .GetBlobContainerClient(containerName)
+                    .GetBlobClient(blobName);
+                Console.WriteLine($"Downloading blob {blobName} to {localFilePath}");
+                await blobClient.DownloadToAsync(localFilePath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to download blob: {ex.Message}");
+            }
+
         }
     }
 }
