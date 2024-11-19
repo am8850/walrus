@@ -1,4 +1,5 @@
-﻿using DPSIW.Common.Models;
+﻿using DPSIW.Common.Exceptions;
+using DPSIW.Common.Models;
 using DPSIW.Common.Services;
 using OpenAI.Chat;
 using System.Text.Json;
@@ -67,7 +68,7 @@ namespace DPSIW.Common.Agents
             if (!isValid)
             {
                 Console.WriteLine(error);
-                throw new ApplicationException(error);
+                throw new DeadLetterException(error);
             }
 
             // Download the blob in the message
@@ -87,10 +88,11 @@ namespace DPSIW.Common.Agents
             var completion = await llmService.ChatCompletion(messages);
             Console.WriteLine("Summary:\n" + completion);
 
-
             // Delete all temp file
             Utilities.Utilities.DeleteFile(outFile);
             Utilities.Utilities.DeleteFile(transcriptFile);
+
+
         }
     }
 }

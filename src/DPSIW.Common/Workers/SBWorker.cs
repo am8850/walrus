@@ -1,6 +1,7 @@
 ﻿using Azure.Identity;
 using Azure.Messaging.ServiceBus;
 using DPSIW.Common.Agents;
+using DPSIW.Common.Exceptions;
 using DPSIW.Common.Models;
 using System.Text.Json;
 
@@ -97,10 +98,15 @@ namespace DPSIW.Common.Workers
                 // complete the message. message is deleted from the queue. 
                 await args.CompleteMessageAsync(args.Message);
             }
-            catch (Exception ex)
+            catch(DeadLetterException ex)
             {
                 Console.WriteLine($"Error processing the message: {ex.Message}");
                 await args.DeadLetterMessageAsync(args.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error processing the message: {ex.Message}");
+                await args.AbandonMessageAsync(args.Message);
             }
         }
 
