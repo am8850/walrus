@@ -1,5 +1,6 @@
 ﻿using DPSIW.Common.Models;
 using DPSIW.Common.Services;
+using OpenAI.Chat;
 using System.Text.Json;
 
 
@@ -69,16 +70,25 @@ namespace DPSIW.Common.Agents
                 throw new ApplicationException(error);
             }
 
-            // Download blob
+            // Download the blob in the message
             var (_, ext) = Utilities.Utilities.GetFileNameAndExtension(msg.metadata.fileUrl!);
             var outFile = Utilities.Utilities.FileGenerator(ext);
             await storageService.DownloadBlob(msg.metadata.fileUrl!, outFile);
 
-            // Speech to Text
+            // Transcribe the audio file and save it to a temp txt file
             var transcriptFile = await ttsService.TranscribeAsync(outFile, Utilities.Utilities.FileGenerator());
-            
 
-            // LLM Summarize            
+
+            // LLM Summarize the transcription
+            ChatMessage[] messages = [
+                new SystemChatMessage("You are an AI that can help summarize a patiend doctor conversation."),
+                new UserChatMessage(File.ReadAllText(transcriptFile))
+                ];
+            var completion = await llmService.ChatCompletion(messages);
+            Console.WriteLine("Summary:\n" + completion);
+
+
+            // Delete all temp file
             Utilities.Utilities.DeleteFile(outFile);
             Utilities.Utilities.DeleteFile(transcriptFile);
         }
