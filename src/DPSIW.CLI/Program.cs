@@ -14,7 +14,17 @@ namespace DPSIW.CLI
             rootCommand.SetHandler((context) =>
             {
                 var token = context.GetCancellationToken();
-                AnsiConsole.Markup("[green]DPSiw[/] .NET\n");
+                
+                var text = @"
+  _____  _____   _____ _____            _   _ ______ _______ 
+ |  __ \|  __ \ / ____|_   _|          | \ | |  ____|__   __|
+ | |  | | |__) | (___   | |_      __   |  \| | |__     | |   
+ | |  | |  ___/ \___ \  | \ \ /\ / /   | . ` |  __|    | |   
+ | |__| | |     ____) |_| |\ V  V /   _| |\  | |____   | |   
+ |_____/|_|    |_____/|_____\_/\_/   (_)_| \_|______|  |_|   
+                                                           
+[/]";
+                AnsiConsole.Markup("[green]"+text);                
             });
 
             // Produce command
@@ -98,9 +108,9 @@ namespace DPSIW.CLI
             rootCommand.AddCommand(qcountCommand);
             rootCommand.AddCommand(transcribeCommand);
 
-            // Execute the CLI Command
-            //return await consumeCommand.InvokeAsync(args);
-            //return await produceCommand.InvokeAsync(args);
+            // Execute the requested CLI command
+            // return await consumeCommand.InvokeAsync(args);
+            // return await produceCommand.InvokeAsync(args);
             return await rootCommand.InvokeAsync(args);
         }
 

@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace DPSIW.Common.Utilities;
+﻿namespace DPSIW.Common.Utilities;
 
 public static class Utilities
 {
@@ -16,7 +14,8 @@ public static class Utilities
 
     public static Tuple<string,string> GetContainerAndName(string url)
     {
-        Uri  uri = new Uri(url);
+        // Parse the URL
+        Uri uri = new(url);
 
         // Extract the container name and blob name
         if (uri.Segments.Length>2)
