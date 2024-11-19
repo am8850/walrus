@@ -91,6 +91,7 @@ namespace DPSIW.CLI
             .AddSingleton<IWorker>(new SBWorker(settings.ServiceBusConnectionString,settings.ServiceBusQueueName))
             .AddSingleton<Settings>(settings)
             .AddSingleton<SBService>(new SBService(settings.ServiceBusConnectionString, settings.ServiceBusQueueName))
+            .AddSingleton<OpenAIService>(new OpenAIService(settings))
             .BuildServiceProvider();
 
             return serviceProvider;
