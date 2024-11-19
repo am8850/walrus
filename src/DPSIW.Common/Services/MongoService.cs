@@ -14,8 +14,8 @@ namespace DPSIW.Common.Services
             _mongoClient = new MongoClient(connStr);
             _database = _mongoClient.GetDatabase(databaseName);
             _collection = _database.GetCollection<BsonDocument>(collectionName);
-            var indexKeys = Builders<BsonDocument>.IndexKeys.Ascending("updated");
-            var indexModel = new CreateIndexModel<BsonDocument>(indexKeys)!;
+            //var indexKeys = Builders<BsonDocument>.IndexKeys.Ascending("updated");
+            //var indexModel = new CreateIndexModel<BsonDocument>(indexKeys)!;
             //await _collection.Indexes.CreateOneAsync(indexModel);
         }
 
@@ -36,6 +36,14 @@ namespace DPSIW.Common.Services
         {
             //var filter = Builders<BsonDocument>.Filter.Eq("id", document["id"]);
             await _collection.InsertOneAsync(document);
+        }
+
+        public async Task<List<BsonDocument>> SearchDocuments(
+        FilterDefinition<BsonDocument> filter,
+        int limit = 100,
+        int skip = 0)
+        {
+            return await _collection.Find(filter,new FindOptions { BatchSize = limit}).ToListAsync();
         }
     }
 }
