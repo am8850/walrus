@@ -22,7 +22,7 @@ namespace DPSIW.Common.Services
             {
                 targetPath = Guid.NewGuid().ToString().Replace("-", "")[..6].ToUpper() + ".txt";
             }
-            
+
             var stopRecognition = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
             StringBuilder sb = new();
 

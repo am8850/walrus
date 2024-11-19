@@ -43,7 +43,7 @@ namespace DPSIW.Common.Services
         int limit = 100,
         int skip = 0)
         {
-            return await _collection.Find(filter,new FindOptions { BatchSize = limit}).ToListAsync();
+            return await _collection.Find(filter, new FindOptions { BatchSize = limit }).ToListAsync();
         }
     }
 }

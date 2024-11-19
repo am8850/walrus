@@ -2,17 +2,12 @@
 using Azure.Messaging.ServiceBus;
 using DPSIW.Common.Agents;
 using DPSIW.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace DPSIW.Common.Workers
 {
 
-    public class SBWorker(string connStr, string queueName) : IProcessor
+    public class SBWorker(string connStr, string queueName) : IWorker
     {
         public async Task ProcessAsync(CancellationToken token, int instances)
         {
@@ -54,7 +49,7 @@ namespace DPSIW.Common.Workers
                     // start processing
                     await processor.StartProcessingAsync();
                 }
-                
+
                 while (!token.IsCancellationRequested)
                 {
                     await Task.Delay(500);
@@ -63,7 +58,7 @@ namespace DPSIW.Common.Workers
                 // stop processing 
                 Console.WriteLine("\nStopping the receiver(s)...");
                 //await processor.StopProcessingAsync();
-                foreach(var p in processors)
+                foreach (var p in processors)
                 {
                     await p.StopProcessingAsync();
                 }
@@ -75,7 +70,7 @@ namespace DPSIW.Common.Workers
                 // resources and other unmanaged objects are properly cleaned up.
                 //await processor.DisposeAsync();
                 //await client.DisposeAsync();
-                foreach(var item in processors)
+                foreach (var item in processors)
                 {
                     await item.DisposeAsync();
                 }
@@ -84,12 +79,12 @@ namespace DPSIW.Common.Workers
 
         }
 
-        
+
 
 
         // handle received messages
         async Task MessageHandler(ProcessMessageEventArgs args)
-        {            
+        {
             try
             {
                 // Body is json string. Deserialize it to Message object
@@ -97,7 +92,7 @@ namespace DPSIW.Common.Workers
                 var message = JsonSerializer.Deserialize<Message>(body)!;
                 IAgent? agent = null;
 
-                if (message.type.Equals("medicalnotesagent",StringComparison.InvariantCultureIgnoreCase))
+                if (message.type.Equals("medicalnotesagent", StringComparison.InvariantCultureIgnoreCase))
                 {
                     agent = new MedicalNotesAgent();
                     await agent.ProcessAsync(args.CancellationToken, body);
@@ -114,7 +109,7 @@ namespace DPSIW.Common.Workers
             {
                 Console.WriteLine($"Error processing the message: {ex.Message}");
                 await args.DeadLetterMessageAsync(args.Message);
-            }            
+            }
         }
 
         // handle any errors when receiving messages

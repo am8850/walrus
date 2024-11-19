@@ -25,10 +25,17 @@ namespace DPSIW.Common.Services
 
         public async Task SendMessage(object message)
         {
-            // serialize ojbect to json
-            var jsonData = JsonSerializer.Serialize(message);
-            var sbMessage = new ServiceBusMessage(Encoding.UTF8.GetBytes(jsonData));
-            await sender.SendMessageAsync(sbMessage);
+            try
+            {
+                // serialize ojbect to json
+                var jsonData = JsonSerializer.Serialize(message);
+                var sbMessage = new ServiceBusMessage(Encoding.UTF8.GetBytes(jsonData));
+                await sender.SendMessageAsync(sbMessage);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unable to send message: {ex.Message}");
+            }
         }
     }
 }

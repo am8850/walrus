@@ -13,7 +13,7 @@ namespace DPSIW.Common.Services
 {
     internal class AzureStorageService
     {
-        
+
         private readonly BlobServiceClient blobServiceClient;
 
         //public readonly BlobContainerClient containerClient;
@@ -32,11 +32,11 @@ namespace DPSIW.Common.Services
         {
             BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName);
             BlobClient blobClient = containerClient.GetBlobClient(fileName);
-            blobClient.Upload("path to file",true);
+            blobClient.Upload("path to file", true);
         }
 
         public async Task DownloadBlob(string containerName, string blobName, string targetFilepath)
-        {            
+        {
             BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName);
             BlobClient blobClient = containerClient.GetBlobClient(blobName);
             await blobClient.DownloadToAsync(targetFilepath);

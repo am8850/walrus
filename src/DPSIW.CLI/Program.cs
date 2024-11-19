@@ -50,7 +50,7 @@ namespace DPSIW.CLI
 
             consumeCommand.SetHandler(async (context) =>
             {
-                var processor = services.GetRequiredService<IProcessor>();
+                var processor = services.GetRequiredService<IWorker>();
                 int instances = context.ParseResult.GetValueForOption(instancesOption);
                 var token = context.GetCancellationToken();
                 await processor.ProcessAsync(token,instances);
@@ -88,7 +88,7 @@ namespace DPSIW.CLI
         {
             Settings settings = new();
             var serviceProvider = new ServiceCollection()
-            .AddSingleton<IProcessor>(new SBWorker(settings.ServiceBusConnectionString,settings.ServiceBusQueueName))
+            .AddSingleton<IWorker>(new SBWorker(settings.ServiceBusConnectionString,settings.ServiceBusQueueName))
             .AddSingleton<Settings>(settings)
             .AddSingleton<SBService>(new SBService(settings.ServiceBusConnectionString, settings.ServiceBusQueueName))
             .BuildServiceProvider();

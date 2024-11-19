@@ -18,11 +18,18 @@ namespace DPSIW.Common.Services
 
         public async Task ProduceAsync(int number)
         {
-            for(var i = 0; i < number; i++)
+            try
             {
-                var metadata = new MedicalNotesMetadata("url", "", "", "", "https://storage/notes/jmdoe-123.wav", "notes/jmdoe-123.wav");
-                var note = new MedicalNotes(Guid.NewGuid().ToString(),"jmdoe",Guid.NewGuid().ToString(),"medicalnotes",metadata,DateTime.UtcNow);
-                await sbservice.SendMessage(note);
+                for (var i = 0; i < number; i++)
+                {
+                    var metadata = new MedicalNotesMetadata("url", "", "", "", "https://storage/notes/jmdoe-123.wav", "notes/jmdoe-123.wav");
+                    var note = new MedicalNotes(Guid.NewGuid().ToString(), "jmdoe", Guid.NewGuid().ToString(), "medicalnotes", metadata, DateTime.UtcNow);
+                    await sbservice.SendMessage(note);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unable to produce message: {ex.Message}");
             }
         }
     }

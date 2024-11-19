@@ -8,7 +8,7 @@ namespace DPSIW.Common.Agents
     public class MedicalNotesAgent : IAgent
     {
 
-        Tuple<string,bool> PreValidate(MedicalNotes data)
+        Tuple<string, bool> PreValidate(MedicalNotes data)
         {
 
             if (string.IsNullOrEmpty(data.pid) || string.IsNullOrEmpty(data.cid) || string.IsNullOrEmpty(data.type) || data.metadata is null || string.IsNullOrEmpty(data.metadata.fileUrl) || string.IsNullOrEmpty(data.metadata.blobName))
@@ -24,7 +24,7 @@ namespace DPSIW.Common.Agents
             Console.WriteLine($"Processing message: {message}");
             await Task.Delay(10);
             var msg = JsonSerializer.Deserialize<MedicalNotes>(message)!;
-                
+
             var result = PreValidate(msg);
             var (error, isValid) = result;
             if (!isValid)
