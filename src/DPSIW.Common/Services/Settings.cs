@@ -11,11 +11,18 @@ namespace DPSIW.Common.Services
     {
         public string ServiceBusConnectionString { get; private set; }
         public string ServiceBusQueueName { get; private set; }
+        public string OpenAIEndpoint { get; private set; } = "";
+        public string OpenAIKey { get; private set; } = "";
+        public string OpenAIChatModel { get; private set; } = "gpt-4o";
+
         public Settings()
         {
             DotEnv.Load();
             this.ServiceBusConnectionString = Environment.GetEnvironmentVariable("ServiceBusConnectionString") ?? "";
             this.ServiceBusQueueName = Environment.GetEnvironmentVariable("ServiceBusQueueName") ?? "";
+            this.OpenAIEndpoint = Environment.GetEnvironmentVariable("OpenAIEndpoint") ?? "";
+            this.OpenAIKey = Environment.GetEnvironmentVariable("OpenAIKey") ?? "";
+            this.OpenAIChatModel = Environment.GetEnvironmentVariable("OpenAIChatModel") ?? "gpt-4o";
         }
     }
 }
