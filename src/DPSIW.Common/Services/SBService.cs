@@ -1,10 +1,6 @@
 ﻿using Azure.Messaging.ServiceBus;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace DPSIW.Common.Services
 {
@@ -33,7 +29,7 @@ namespace DPSIW.Common.Services
                 await sender.SendMessageAsync(sbMessage);
             }
             catch (Exception ex)
-            {
+            {                
                 Console.WriteLine($"Unable to send message: {ex.Message}");
             }
         }
