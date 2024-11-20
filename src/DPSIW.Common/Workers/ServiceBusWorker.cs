@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace DPSIW.Common.Workers
 {
-    public class ServiceBusWorker(string connStr, string queueName) : IWorker
+    public class ServiceBusWorker(string connectionString, string queueName) : IWorker
     {
 
         public async Task ProcessAsync(CancellationToken token, int instances)
@@ -23,7 +23,7 @@ namespace DPSIW.Common.Workers
             };
             // TODO: Replace the connection string DefaultAzureClient credentials
             client = new ServiceBusClient(
-                connStr,
+                connectionString,
                 clientOptions);
             //new DefaultAzureCredential(),
             //clientOptions);
