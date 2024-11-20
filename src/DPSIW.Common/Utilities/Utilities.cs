@@ -49,15 +49,7 @@ public static class Utilities
     {
         foreach (var file in files)
         {
-            try
-            {
-                Console.WriteLine($"Deleting file: {file}");
-                File.Delete(file);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Failed to delete file: {ex.Message}");
-            }
+            DeleteFile(file);
         }
     }
 }
