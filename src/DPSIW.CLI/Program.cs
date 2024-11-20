@@ -41,7 +41,7 @@ namespace DPSIW.CLI
             produceCommand.SetHandler(async (number) =>
             {
                 var sbservice = services.GetRequiredService<AzureServiceBusService>();
-                var producer = new MockProducer(sbservice);
+                var producer = new MockProducerService(sbservice);
                 await producer.ProduceAsync(number);
                 Console.WriteLine($"Producing messages: {number}");
 

@@ -3,11 +3,11 @@ using System.Text.Json;
 
 namespace DPSIW.Common.Services
 {
-    public class MockProducer
+    public class MockProducerService
     {
         private readonly AzureServiceBusService sbservice;
 
-        public MockProducer(AzureServiceBusService sbService)
+        public MockProducerService(AzureServiceBusService sbService)
         {
             sbservice = sbService;
         }
