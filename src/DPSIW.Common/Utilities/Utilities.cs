@@ -37,7 +37,7 @@ public static class Utilities
         try
         {
             Console.WriteLine($"Deleting file: {filepath}");
-            File.Delete(filepath);
+            File.Delete(filepath);            
         }
         catch (Exception ex)
         {
