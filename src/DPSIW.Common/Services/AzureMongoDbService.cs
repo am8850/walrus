@@ -3,13 +3,13 @@ using MongoDB.Driver;
 
 namespace DPSIW.Common.Services
 {
-    public class MongoService
+    public class AzureMongoDbService
     {
         private readonly MongoClient _mongoClient;
         private readonly IMongoDatabase _database;
         private readonly IMongoCollection<BsonDocument> _collection;
 
-        public MongoService(string connStr, string databaseName, string collectionName)
+        public AzureMongoDbService(string connStr, string databaseName, string collectionName)
         {
             _mongoClient = new MongoClient(connStr);
             _database = _mongoClient.GetDatabase(databaseName);

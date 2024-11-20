@@ -1,13 +1,4 @@
-﻿using Azure;
-using Azure.Identity;
-using Azure.Storage.Blobs;
-using MongoDB.Bson.IO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Azure.Storage.Blobs;
 
 namespace DPSIW.Common.Services
 {

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using dotenv.net;
+﻿using dotenv.net;
 
 namespace DPSIW.Common.Services
 {
-    public class Settings
+    public class SettingsService
     {
         public string ServiceBusConnectionString { get; private set; }
         public string ServiceBusQueueName { get; private set; }
@@ -18,7 +13,7 @@ namespace DPSIW.Common.Services
         public string speechRegion { get; private set; } = "";
         public string storageConnectionString { get; private set; } = "";
 
-        public Settings()
+        public SettingsService()
         {
             DotEnv.Load();
             this.ServiceBusConnectionString = Environment.GetEnvironmentVariable("ServiceBusConnectionString") ?? "";

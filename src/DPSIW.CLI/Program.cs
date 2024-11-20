@@ -40,7 +40,7 @@ namespace DPSIW.CLI
 
             produceCommand.SetHandler(async (number) =>
             {
-                var sbservice = services.GetRequiredService<SBService>();
+                var sbservice = services.GetRequiredService<AzureServiceBusService>();
                 var producer = new MockProducer(sbservice);
                 await producer.ProduceAsync(number);
                 Console.WriteLine($"Producing messages: {number}");
@@ -116,12 +116,12 @@ namespace DPSIW.CLI
 
         private static ServiceProvider CreateServices()
         {
-            Settings settings = new();
+            SettingsService settings = new();
             var serviceProvider = new ServiceCollection()
-            .AddSingleton<IWorker>(new SBWorker(settings.ServiceBusConnectionString,settings.ServiceBusQueueName))
-            .AddSingleton<Settings>(settings)
-            .AddSingleton<SBService>(new SBService(settings.ServiceBusConnectionString, settings.ServiceBusQueueName))
-            .AddSingleton<OpenAIService>(new OpenAIService(settings))
+            .AddSingleton<IWorker>(new ServiceBusService(settings.ServiceBusConnectionString,settings.ServiceBusQueueName))
+            .AddSingleton<SettingsService>(settings)
+            .AddSingleton<AzureServiceBusService>(new AzureServiceBusService(settings.ServiceBusConnectionString, settings.ServiceBusQueueName))
+            .AddSingleton<AzureOpenAIService>(new AzureOpenAIService(settings))
             .AddSingleton<AzureSTTService>(new AzureSTTService(settings.speechKey,settings.speechRegion))
             .AddSingleton<AzureBlobStorageService>(new AzureBlobStorageService(settings.storageConnectionString))
             .BuildServiceProvider();

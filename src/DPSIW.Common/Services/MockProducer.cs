@@ -1,19 +1,13 @@
 ﻿using DPSIW.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 
 namespace DPSIW.Common.Services
 {
     public class MockProducer
     {
-        private readonly SBService sbservice;
+        private readonly AzureServiceBusService sbservice;
 
-        public MockProducer(SBService sbService)
+        public MockProducer(AzureServiceBusService sbService)
         {
             sbservice = sbService;
         }

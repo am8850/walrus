@@ -4,19 +4,17 @@ using DPSIW.Common.Services;
 using OpenAI.Chat;
 using System.Text.Json;
 
-
-
 namespace DPSIW.Common.Agents
 {
     public class MedicalNotesAgent : IAgent
     {
         private readonly AzureBlobStorageService storageService;
-        private readonly OpenAIService llmService;
+        private readonly AzureOpenAIService llmService;
         private readonly AzureSTTService ttsService;
 
-        public MedicalNotesAgent(AzureBlobStorageService? blobStorage = null, OpenAIService? openai = null, AzureSTTService? tts=null)
+        public MedicalNotesAgent(AzureBlobStorageService? blobStorage = null, AzureOpenAIService? openai = null, AzureSTTService? tts=null)
         {
-            Settings settings = new();
+            SettingsService settings = new();
             //storageService = blobStorage;
             if (blobStorage is null)
             {
@@ -29,7 +27,7 @@ namespace DPSIW.Common.Agents
 
             if (openai is null)
             {
-                llmService = new OpenAIService(settings);
+                llmService = new AzureOpenAIService(settings);
             }
             else
             {

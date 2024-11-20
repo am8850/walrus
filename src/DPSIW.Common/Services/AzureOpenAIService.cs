@@ -1,20 +1,15 @@
 ﻿using Azure.AI.OpenAI;
 using OpenAI.Chat;
-using System;
 using System.ClientModel;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DPSIW.Common.Services
 {
-    public class OpenAIService
+    public class AzureOpenAIService
     {
         private readonly AzureOpenAIClient azureClient;
         private readonly string chatModel;
 
-        public OpenAIService(Settings settings)
+        public AzureOpenAIService(SettingsService settings)
         {
             azureClient = new AzureOpenAIClient(
                 new Uri(settings.OpenAIEndpoint),

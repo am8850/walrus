@@ -5,13 +5,13 @@ using System.Text.Json;
 
 namespace DPSIW.Common.Services
 {
-    public class SBService
+    public class AzureServiceBusService
     {
         private readonly ServiceBusClient client;
         private readonly ServiceBusAdministrationClient? adminClient;
         private readonly ServiceBusSender sender;
 
-        public SBService(string connStr, string queueName)
+        public AzureServiceBusService(string connStr, string queueName)
         {
             var clientOptions = new ServiceBusClientOptions()
             {

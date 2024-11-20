@@ -1,5 +1,4 @@
-﻿using Azure.Identity;
-using Azure.Messaging.ServiceBus;
+﻿using Azure.Messaging.ServiceBus;
 using DPSIW.Common.Agents;
 using DPSIW.Common.Exceptions;
 using DPSIW.Common.Models;
@@ -7,7 +6,7 @@ using System.Text.Json;
 
 namespace DPSIW.Common.Workers
 {
-    public class SBWorker(string connStr, string queueName) : IWorker
+    public class ServiceBusService(string connStr, string queueName) : IWorker
     {
         public async Task ProcessAsync(CancellationToken token, int instances)
         {
