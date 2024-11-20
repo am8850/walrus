@@ -12,7 +12,7 @@ namespace DPSIW.Common.Agents
         private readonly AzureOpenAIService llmService;
         private readonly AzureSTTService ttsService;
 
-        public MedicalNotesAgent(AzureBlobStorageService? blobStorage = null, AzureOpenAIService? openai = null, AzureSTTService? tts=null)
+        public MedicalNotesAgent(AzureBlobStorageService? blobStorage = null, AzureOpenAIService? openai = null, AzureSTTService? tts = null)
         {
             SettingsService settings = new();
             //storageService = blobStorage;
@@ -86,11 +86,8 @@ namespace DPSIW.Common.Agents
             var completion = await llmService.ChatCompletion(messages);
             Console.WriteLine("Summary:\n" + completion);
 
-            // Delete all temp file
-            Utilities.Utilities.DeleteFile(outFile);
-            Utilities.Utilities.DeleteFile(transcriptFile);
-
-
+            // Delete all temp files
+            Utilities.Utilities.DeleteFiles([outFile, transcriptFile]);
         }
     }
 }
