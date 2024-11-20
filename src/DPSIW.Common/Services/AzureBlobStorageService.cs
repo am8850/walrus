@@ -16,7 +16,6 @@ namespace DPSIW.Common.Services
             //    new DefaultAzureCredential());
 
             blobServiceClient = new BlobServiceClient(connecionStr);
-            //containerClient = blobServiceClient.CreateBlobContainer(containerName);
         }
 
         public async Task UploadBlob(string containerName, string fileName)
@@ -32,11 +31,16 @@ namespace DPSIW.Common.Services
             try
             {
                 var uri = new Uri(blobUri);
+
+                // Get the container name and blob name
                 var (containerName, blobName) = Utilities.Utilities.GetContainerAndName(blobUri);
 
+                // Create a blob client for the blob
                 BlobClient blobClient = blobServiceClient
                     .GetBlobContainerClient(containerName)
                     .GetBlobClient(blobName);
+
+                // Download the blob
                 Console.WriteLine($"Downloading blob {blobName} to {localFilePath}");
                 await blobClient.DownloadToAsync(localFilePath);
             }

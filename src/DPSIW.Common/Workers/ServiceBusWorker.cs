@@ -6,8 +6,9 @@ using System.Text.Json;
 
 namespace DPSIW.Common.Workers
 {
-    public class ServiceBusService(string connStr, string queueName) : IWorker
+    public class ServiceBusWorker(string connStr, string queueName) : IWorker
     {
+
         public async Task ProcessAsync(CancellationToken token, int instances)
         {
             // the client that owns the connection and can be used to create senders and receivers

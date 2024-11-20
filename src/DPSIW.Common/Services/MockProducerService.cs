@@ -3,15 +3,8 @@ using System.Text.Json;
 
 namespace DPSIW.Common.Services
 {
-    public class MockProducerService
+    public class MockProducerService(AzureServiceBusService sbservice)
     {
-        private readonly AzureServiceBusService sbservice;
-
-        public MockProducerService(AzureServiceBusService sbService)
-        {
-            sbservice = sbService;
-        }
-
         public async Task ProduceAsync(int number)
         {
             try

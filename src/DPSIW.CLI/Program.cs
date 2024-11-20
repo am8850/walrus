@@ -118,7 +118,7 @@ namespace DPSIW.CLI
         {
             SettingsService settings = new();
             var serviceProvider = new ServiceCollection()
-            .AddSingleton<IWorker>(new ServiceBusService(settings.ServiceBusConnectionString,settings.ServiceBusQueueName))
+            .AddSingleton<IWorker>(new ServiceBusWorker(settings.ServiceBusConnectionString,settings.ServiceBusQueueName))
             .AddSingleton<SettingsService>(settings)
             .AddSingleton<AzureServiceBusService>(new AzureServiceBusService(settings.ServiceBusConnectionString, settings.ServiceBusQueueName))
             .AddSingleton<AzureOpenAIService>(new AzureOpenAIService(settings))
