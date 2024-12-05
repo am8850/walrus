@@ -10,21 +10,21 @@ Walrus project
 - Azure Speech Service
 - Azure OpenAI
 
-## DPSIW.Common Library
+## DPSIW.Common - .NET Library
 
 - A .NET library encapsulating all logic to put and process messages using AI.
 
-## DPSIW.CLI
+## DPSIW.CLI - .NET Console App
 
 - A .NET Command Line Interface to generate and process messages from the queue.
 
-## CLI Commands
+### CLI Commands
 
-### Produce a mock message
+#### Produce a mock message
 - `dpsiw.cli produce`
 
-### Process the messages in the queue
+#### Process the messages in the queue
 - `dpsiw.cli consume`
 
-### Clear the messages in the queue
+#### Clear the messages in the queue
 - `dpsiw.cli qclear`
