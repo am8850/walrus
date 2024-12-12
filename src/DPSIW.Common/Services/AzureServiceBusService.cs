@@ -56,5 +56,23 @@ namespace DPSIW.Common.Services
             Console.WriteLine("Admin client was or could not be created");
             return -1;
         }
+
+        // Count queues in queue
+        public async Task<bool> PurgeQueue(string queueName)
+        {
+            if (client is not null)
+            {
+                ServiceBusReceiver receiver = client.CreateReceiver(queueName,
+                    new ServiceBusReceiverOptions { ReceiveMode = ServiceBusReceiveMode.ReceiveAndDelete });
+
+                while ((await receiver.PeekMessageAsync()) != null)
+                {
+                    // receive in batches of 100 messages.
+                    await receiver.ReceiveMessagesAsync(100);
+                }
+                return true;
+            }            
+            return false;
+        }
     }
 }

@@ -24,6 +24,13 @@ namespace DPSIW.Common.Services
             this.speechKey = Environment.GetEnvironmentVariable("SpeechKey") ?? "";
             this.speechRegion = Environment.GetEnvironmentVariable("SpeechRegion") ?? "";
             this.storageConnectionString = Environment.GetEnvironmentVariable("StorageConnectionString") ?? "";
+
+            if (string.IsNullOrEmpty(this.ServiceBusConnectionString) || string.IsNullOrEmpty(this.ServiceBusQueueName))
+            {
+                //throw new Exception("ServiceBusConnectionString and ServiceBusQueueName must be set in the environment");
+                Console.WriteLine("ServiceBusConnectionString and ServiceBusQueueName must be set in the environment");
+                Environment.Exit(1);
+            }
         }
     }
 }

@@ -67,18 +67,28 @@ namespace DPSIW.CLI
 
             // qclear command
             var qclearCommand = new Command("qclear", "Clear the queue");
-            qclearCommand.SetHandler((context) =>
+            qclearCommand.SetHandler(async (context) =>
             {                
                 
                 Console.WriteLine("Clearing the queue");
+                var sbservice = services.GetRequiredService<AzureServiceBusService>();                
+                var settings = services.GetRequiredService<SettingsService>();
+                if (await sbservice.PurgeQueue(settings.ServiceBusQueueName))
+                {
+                    Console.WriteLine($"Messages cleared from the queue.");
+                }                
             });
 
             // qclear command
             var qcountCommand = new Command("qcount", "Count the messages in the queue");
-            qclearCommand.SetHandler((context) =>
+            qcountCommand.SetHandler(async (context) =>
             {
 
                 Console.WriteLine("Counting the messages in the queue");
+                var sbservice = services.GetRequiredService<AzureServiceBusService>();
+                var settings = services.GetRequiredService<SettingsService>();
+                var count = await sbservice.CountMessages(settings.ServiceBusQueueName);
+                Console.WriteLine($"Messages in queue: {count}");
             });
 
             // Transcribe file
